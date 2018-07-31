@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 //figure out how to clear a cmd.Paramaters collection
+//make classes for Update, Select, Insert, and Delete
 
 namespace CSharpToSql {
 	class Program {
@@ -46,6 +47,7 @@ namespace CSharpToSql {
 			}
 			System.Diagnostics.Debug.WriteLine("Connection Opened");
 
+			//Update sql query
 			string sql = "update [User] "
 				+ "Set Username = @Username, "
 				+ "Password = @Password, "
@@ -58,6 +60,7 @@ namespace CSharpToSql {
 				+ "Active = @Active "
 				+ "where Id = @Id;";
 
+			//adding the user info to the sql query via the Paramters collection
 			SqlCommand cmd = new SqlCommand(sql, conn);
 			cmd.Parameters.Add(new SqlParameter("@Id", user.Id));
 			cmd.Parameters.Add(new SqlParameter("@Username", user.Username));
@@ -71,6 +74,7 @@ namespace CSharpToSql {
 			cmd.Parameters.Add(new SqlParameter("@Active", user.Active));
 
 
+			//checking to make sure the record was inserted correctly
 			int recsAffected = cmd.ExecuteNonQuery();
 			if (recsAffected != 1) {
 				System.Diagnostics.Debug.WriteLine("Record insert failed");
@@ -140,8 +144,6 @@ namespace CSharpToSql {
 			SqlCommand cmd = new SqlCommand(sql,conn);
 			SqlDataReader reader = cmd.ExecuteReader();
 
-
-
 			//navigating through the data row by row using the reader
 			while (reader.Read()) { //the Read() method returns true if there is more to read and false if it there are no more rows which would then exit the while loop
 				int id = reader.GetInt32(reader.GetOrdinal("Id")); //get ordinal gives us the index number for the Id column in the table and stores it in id
@@ -173,8 +175,6 @@ namespace CSharpToSql {
 				//print out the information above to the output window after Start Debugging (F5)
 				//System.Diagnostics.Debug.WriteLine($"{id}, {username}, {password}, {firstname}, {lastname}, {phone}, {email}, {isreviewer}, {isadmin}, {active}");
 			}
-
-
 
 			//closes the connection
 			conn.Close();

@@ -19,7 +19,6 @@ namespace CSharpToSql {
 		public bool Active { get; set; }
 
 		//add a constructor later to fill in all of this data
-
 		public User() { }
 	}
 }
